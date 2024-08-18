@@ -29,13 +29,11 @@ jobs:
           cache: npm
 
       - name: 安装依赖
-        working-directory: ./docs  # 设置工作目录
         run: |
           corepack enable
           npm ci
 
       - name: 构建文档
-        working-directory: ./docs  # 设置工作目录
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
@@ -47,4 +45,4 @@ jobs:
         with:
           # 部署文档
           branch: gh-pages
-          folder: docs/src/.vuepress/dist
+          folder: src/.vuepress/dist
