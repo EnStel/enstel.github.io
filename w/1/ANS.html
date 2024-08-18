@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="thgz" content="student">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ANS</title>
+        <style>
+            html {
+                margin: 0;
+                padding: 0;
+                height: 100%; /* 使body和html高度占满整个视口 */
+            }
+            body{
+                background-image: url('https://cdn-official-web.peropero.net/loading/d5457ae8f011a9a8-1656062745378.png');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                font-size: 3vw;
+                margin: 0;
+                padding: 0;
+                height: 100%; /* 使body和html高度占满整个视口 */
+            }
+            a{
+                color: black;
+                text-decoration:none;
+                
+            }
+            a:visited {
+            text-decoration: line-through;
+            color: brown;
+            }
+            a:hover {
+            color: #e74c3c; /* 鼠标悬停时的颜色 */
+            text-decoration: underline;
+            }
+            .container {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex; /* 使用Flexbox来确保表格垂直居中（如果需要的话） */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            /* 注意：如果你不希望表格居中，可以去掉display: flex;和相关的justify-content/align-items属性 */
+            }
+            th, td {
+            border: 1px solid #ddd; /* 示例边框 */
+            padding: 1%; /* 示例内边距 */
+            text-align: center; /* 文本对齐 */
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="border-collapse;color: skyblue;text-align: center;">同步辅导ANS</h1>
+        <table  id="dynamicTable"; border="1"; style="border-collapse: collapse; width:100%; height: 100%; background-color: rgb(255, 250, 250,0.6)"; align="center">
+            <thead>
+                        <tr>
+                            <th>期数</th>
+                            <th>A</th>
+                            <th>B</th>
+                        </tr>
+            </thead>
+            
+            <tbody>
+                <!--it is ok-->            
+            </tbody>
+            
+        </table>
+        <script>
+            // Array of row numbers
+            const rowNumbers = Array.from({ length: 20 }, (_, i) => i + 1);
+        
+            // Arrays for A版 and B版 link IDs
+            const aVersionLinkIDs = [
+                '101223', '101225', '101226', '101228', '101232', '101233', '101234', '101236', '101238', 
+                '101239', '101241', '101242', '101244', '101245', '101246', '101247', '101248', '101249', 
+                '101250', '101251'
+            ];
+        
+            const bVersionLinkIDs = [
+                null, '100384', '100385', '100386', '100387', '100388', '100389', '100390', '100391', 
+                '100392', '100393', '100395', '100396', '100397', '100398', '100399', '100400', '100401', 
+                '100402', '100403'
+            ];
+        
+            // Function to create table rows dynamically
+            function createTable() {
+                const tableBody = document.querySelector('#dynamicTable tbody');
+        
+                for (let i = 0; i < rowNumbers.length; i++) {
+                    const row = document.createElement('tr');
+        
+                    // Create the row number cell
+                    const numberCell = document.createElement('td');
+                    numberCell.textContent = rowNumbers[i];
+                    row.appendChild(numberCell);
+        
+                    // Create the A版 cell
+                    const aCell = document.createElement('td');
+                    const aLink = document.createElement('a');
+                    aLink.href = `https://www.xyybs.com/index.php?m=wap&a=show&ewm=1&from=zym&catid=152&id=${aVersionLinkIDs[i]}`;
+                    aLink.textContent = `A版第${rowNumbers[i]}期所放参考答案`;
+                    aCell.appendChild(aLink);
+                    row.appendChild(aCell);
+        
+                    // Create the B版 cell
+                    const bCell = document.createElement('td');
+                    if (bVersionLinkIDs[i]) {
+                        const bLink = document.createElement('a');
+                        bLink.href = `https://www.xyybs.com/index.php?m=wap&a=show&ewm=1&from=zym&catid=152&id=${bVersionLinkIDs[i]}`;
+                        bLink.textContent = `B版第${rowNumbers[i]}期所放参考答案`;
+                        bCell.appendChild(bLink);
+                    } else {
+                        const placeholderSpan = document.createElement('span');
+                        placeholderSpan.id = 'clickableText';
+                        placeholderSpan.textContent = 'null';
+                        bCell.appendChild(placeholderSpan);
+                    }
+                    bCell.style.textAlign = 'center';
+                    row.appendChild(bCell);
+        
+                    // Append the row to the table body
+                    tableBody.appendChild(row);
+                }
+            }
+        
+            // Call the function to create the table
+            createTable();
+        </script>
+        <div style="color: snow;font-size: small;text-align: center;background-color: black;margin-bottom: auto;">答案仅供参考，抄答案是坏孩子哦</div>
+    </body>
+</html>
