@@ -1,11 +1,12 @@
 import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
+import { viteBundler } from '@vuepress/bundler-vite'
+// 如果 '@vuepress/bundler-vite' 不存在或未安装，应从配置中移除相关的引用
 
 export default defineUserConfig({
   base: "/",
-  
-
+  bundler: viteBundler(),
   lang: "zh-CN",
   title: "博客演示",
   description: "vuepress-theme-hope 的博客演示",
@@ -14,8 +15,7 @@ export default defineUserConfig({
 
   plugins: [
     googleAnalyticsPlugin({
-      // 配置项
-      id: "G-4J93QM1PBG",      // 配置项
+      id: "G-4J93QM1PBG",
     }),
   ],
 
