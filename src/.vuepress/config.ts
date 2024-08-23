@@ -8,8 +8,8 @@ export default defineUserConfig({
   base: "/",
   bundler: viteBundler(),
   lang: "zh-CN",
-  title: "博客演示",
-  description: "vuepress-theme-hope 的博客演示",
+  title: "谜のHOME",
+  description: "一个小家",
 
   theme,
 
@@ -21,4 +21,8 @@ export default defineUserConfig({
 
   // 和 PWA 一起启用
   // shouldPrefetch: false,
+  
 });
+
+
+

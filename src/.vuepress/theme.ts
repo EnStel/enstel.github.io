@@ -4,18 +4,18 @@ import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
 export default hopeTheme({
-  hostname: "https://mister-hope.github.io",
+  hostname: "https://enstel.github.io",
 
   author: {
     name: "Mr.mi",
-    url: "https://mister-hope.com",
+    url: "https://enstel.github.io",
   },
 
   iconAssets: "fontawesome-with-brands",
 
   logo: "https://theme-hope-assets.vuejs.press/logo.svg",
 
-  repo: "vuepress-theme-hope/vuepress-theme-hope",
+  repo: "enstel/enstel.github.io",
 
   docsDir: "src",
 
@@ -38,14 +38,18 @@ export default hopeTheme({
       VuePressThemeHope: {
         icon: "https://theme-hope-assets.vuejs.press/logo.svg",
         link: "https://theme-hope.vuejs.press",
-      },
+      }, 
+    
     },
   },
 
+  
+  fullscreen: true,
+ 
   // 加密配置
   encrypt: {
     config: {
-      "/demo/encrypt.html": ["1234"],
+      "/demo/encrypt.html": ["1208"],
     },
   },
 
@@ -55,7 +59,7 @@ export default hopeTheme({
   },
 
   // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
-  hotReload: true,
+  //hotReload: true,
 
   // 在这里配置主题提供的插件
   plugins: {
