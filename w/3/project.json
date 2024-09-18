@@ -1,0 +1,38 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "为班级设置的高考&课程倒计时\n由chatgpt与我合作制作\n默认图片来源于peropero\n课程在json文件设置，图片请在文件夹中替换，想尝试用户参数设置壁纸但是失败了，希望有人教我",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"introduce" : 
+			{
+				"index" : 0,
+				"order" : 100,
+				"text" : "为班级打造的一款课程倒计时（课程表）和高考倒计时的壁纸",
+				"type" : "textinput",
+				"value" : ""
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 1 1"
+			}
+		}
+	},
+	"preview" : "preview.jpg",
+	"ratingsex" : "none",
+	"ratingviolence" : "none",
+	"snapshotformat" : -1,
+	"snapshotoverlay" : "",
+	"tags" : [ "Anime" ],
+	"title" : "课程倒计时&高考倒计时v1.1",
+	"type" : "web",
+	"version" : 2,
+	"visibility" : "public",
+	"workshopid" : "3332694913",
+	"workshopurl" : "steam://url/CommunityFilePage/3332694913"
+}
