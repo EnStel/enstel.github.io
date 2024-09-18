@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>课程倒计时</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel='stylesheet' href='https://fonts.googleapis.cn/css?family=Montserrat:400,700'>
+    <style>
+        :root {
+            --smaller: .75;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            background:  url('https://cdn-official-web.peropero.net/loading/6ed77fc4ee1239af-1707297194468.png') no-repeat center center fixed; /* 初始背景图片 */
+            display: flex;
+            font-family: "Montserrat", "sans-serif";
+        }
+
+        .container {
+            color: #333;
+            margin: 0 auto;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px; /* 添加圆角效果 */
+        }
+
+        h1 {
+            font-weight: normal;
+            letter-spacing: .25rem;
+            text-transform: uppercase;
+        }
+
+        li {
+            display: inline-block;
+            font-size: 2rem;
+            list-style-type: none;
+            padding: 1em;
+            text-transform: uppercase;
+        }
+
+        li span {
+            display: block;
+            font-size: 6rem;
+        }
+
+        span, li, h1 {
+            color: #fffaf0;
+        }
+
+        #college-countdown {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            z-index: 1000;
+            border-radius: 10px; /* 添加圆角效果 */
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* 添加阴影效果，以增加对比度 */
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* 确保画布在其他内容下方 */
+        }
+    </style>
+</head>
+<body id="body">
+    <div id="college-countdown">
+        <h2 id="college-headline">距离2025高考还剩</h2>
+        <ul id="college-timer" style="list-style-type: none; padding: 0; margin: 0;">
+            <li style="display: inline-block; font-size: 1.5rem; padding: 0.5em;">
+                <span id="college-days-time" style="font-size: 3rem;"></span>天
+            </li>
+            <li style="display: inline-block; font-size: 1.5rem; padding: 0.5em;">
+                <span id="college-hours-time" style="font-size: 3rem;"></span>小时
+            </li>
+            <li style="display: inline-block; font-size: 1.5rem; padding: 0.5em;">
+                <span id="college-minutes-time" style="font-size: 3rem;"></span>分钟
+            </li>
+            <li style="display: inline-block; font-size: 1.5rem; padding: 0.5em;">
+                <span id="college-seconds-time" style="font-size: 3rem;"></span>秒
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h1 id="headline"></h1>
+        <div id="countdown">
+            <ul>
+                <li id="li_hours"><span id="hours"></span>小时</li>
+                <li id="li_minutes"><span id="minutes"></span>分钟</li>
+                <li id="li_seconds"><span id="seconds"></span>秒</li>
+            </ul>
+        </div>
+    </div>
+
+    <canvas id="backgroundCanvas"></canvas>
+
+    <script>
+        let schedule;
+        let classDuration;
+        let targetTime;
+        let currentClass = null;
+        const collegeExamDate = new Date('2025-06-07T00:00:00');
+
+        fetch('schedule.json')
+            .then(response => response.json())
+            .then(data => {
+                schedule = data.schedule;
+                classDuration = data.classDuration;
+                updateSchedule();
+                setInterval(updateTime, 1000);
+            });
+
+        function updateSchedule() {
+            let now = new Date();
+            let dayOfWeek = now.getDay();
+            let daySchedule = schedule[dayOfWeek] || [];
+
+            for (let i = 0; i < daySchedule.length; i++) {
+                let course = daySchedule[i];
+                let courseId = course.id;
+                let courseName = course.name;
+                let duration = classDuration[courseId] || {};
+                let startTime = duration.start || "00:00";
+                let endTime = duration.end || "00:00";
+
+                let [startHour, startMinute] = startTime.split(':').map(Number);
+                let [endHour, endMinute] = endTime.split(':').map(Number);
+
+                let courseStartTime = new Date(now);
+                courseStartTime.setHours(startHour, startMinute, 0, 0);
+
+                let courseEndTime = new Date(now);
+                courseEndTime.setHours(endHour, endMinute, 0, 0);
+
+                if (now >= courseStartTime && now < courseEndTime) {
+                    currentClass = { name: courseName, endTime: courseEndTime };
+                    targetTime = courseEndTime;
+                    document.getElementById("headline").innerText = `这一节是 ${courseName}，距离下课还剩`;
+                    return;
+                } else if (now < courseStartTime) {
+                    currentClass = { name: courseName, startTime: courseStartTime };
+                    targetTime = courseStartTime;
+                    document.getElementById("headline").innerText = `下一节是 ${courseName}，距离上课还剩`;
+                    return;
+                }
+            }
+            document.getElementById("headline").innerText = "今天的课全部结束了";
+            targetTime = null;
+            
+        }
+
+        function updateTime() {
+            let now = new Date();
+            if (targetTime) {
+                let offsetTime = targetTime.getTime() - now.getTime();
+                if (offsetTime <= 0) {
+                    updateSchedule();
+                    return;
+                }
+                let hours = Math.floor(offsetTime / (1000 * 60 * 60));
+                let minutes = Math.floor((offsetTime % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((offsetTime % (1000 * 60)) / 1000);
+
+                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+            }
+        }
+
+        function updateCollegeCountdown() {
+            const nowTime = new Date();
+            const offsetTime = collegeExamDate.getTime() - nowTime.getTime();
+            const offsetSeconds = Math.floor(offsetTime / 1000);
+
+            const days = Math.floor(offsetSeconds / (24 * 60 * 60));
+            const hours = Math.floor((offsetSeconds % (24 * 60 * 60)) / (60 * 60));
+            const minutes = Math.floor((offsetSeconds % (60 * 60)) / 60);
+            const seconds = offsetSeconds % 60;
+
+            document.getElementById('college-days-time').innerText = PrefixInteger(days, 2);
+            document.getElementById('college-hours-time').innerText = PrefixInteger(hours, 2);
+            document.getElementById('college-minutes-time').innerText = PrefixInteger(minutes, 2);
+            document.getElementById('college-seconds-time').innerText = PrefixInteger(seconds, 2);
+        }
+
+        function PrefixInteger(num, length) {
+            return (num < Math.pow(10, length) ? Array(length - String(num).length + 1).join('0') : '') + num;
+        }
+
+        
+
+        updateCollegeCountdown();
+        setInterval(updateCollegeCountdown, 1000);
+
+        // 调用课程倒计时更新
+        updateSchedule();
+        setInterval(updateTime, 1000);
+
+      
+    </script>
+</body>
+</html>
