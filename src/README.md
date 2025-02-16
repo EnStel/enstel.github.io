@@ -5,7 +5,7 @@ icon: home
 title: 博客主页
 heroImage: https://theme-hope-assets.vuejs.press/logo.svg
 heroText: 谜のHOME
-bgImage: https://onemanager-in-gecos-projects.vercel.app/Sources/Blog/Homepage.png
+bgImage: /attachments/pg1.png
 heroFullScreen: ture
 tagline: Love this world and make it better!
 projects:
@@ -14,10 +14,6 @@ projects:
     desc: 项目详细描述
     link: https://你的项目链接
 
-  - icon: link
-    name: ANS
-    desc: 英语报纸答案
-    link: https://enstel.github.io/w/1/ANS.html
 
 actions:
   - text: 快速上手
