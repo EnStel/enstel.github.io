@@ -3,7 +3,7 @@ home: true
 layout: BlogHome
 icon: home
 title: 博客主页
-heroImage: https://theme-hope-assets.vuejs.press/logo.svg
+heroImage: mi.ico
 heroText: 谜のHOME
 bgImage: /attachments/pg1.png
 heroFullScreen: ture
